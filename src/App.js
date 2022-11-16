@@ -13,7 +13,7 @@ export default function App() {
             rel="noreferrer"
             target="_blank"
           >
-            is open-sourced on Github
+            and is open-sourced on Github
           </a>
         </footer>{" "}
       </div>
