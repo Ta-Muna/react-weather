@@ -1,34 +1,71 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 import "./Weather.css";
 
-export default function Weather() {
-  return (
-    <div className="Weather">
-      <form>
-        <div className="row">
-          <div className="col-9">
-            <input
-              type="search"
-              placeholder="Type the city.."
-              className="form-control"
-            />
+export default function Weather(props) {
+  const [weatherData, setWeatherData] = useState({ ready: false });
+
+  function handleResponse(response) {
+    setWeatherData({
+      ready: true,
+      temperature: response.data.main.temp,
+      description: response.data.weather[0].description,
+      date: "Thursday 7:58",
+      iconUrl: "https://ssl.gstatic.com/onebox/weather/64/cloudy.png",
+      city: response.data.name,
+    });
+  }
+
+  if (weatherData.ready) {
+    return (
+      <div className="Weather">
+        <form>
+          <div className="row">
+            <div className="col-9">
+              <input
+                type="search"
+                placeholder="Type the city.."
+                className="form-control"
+              />
+            </div>
+            <div className="col-3">
+              <input
+                type="submit"
+                value="search"
+                className="btn btn-primary w-100"
+              />
+            </div>
           </div>
-          <div className="col-3">
-            <input
-              type="submit"
-              value="search"
-              className="btn btn-primary w-100"
-            />
-          </div>
-        </div>
-      </form>
-      <h1>Tbilisi</h1>
-      <img
-        src="https://ssl.gstatic.com/onebox/weather/64/cloudy.png"
-        alt="cloudy"
-      />
-      <h2>Sunny</h2>
-      <h3 className="currentTemperature">20°C</h3>
-    </div>
-  );
+        </form>
+        <h1>{weatherData.city}</h1>
+        <img src={weatherData.iconUrl} alt={weatherData.description} />
+        <h2 className="text-capitalize">{weatherData.description}</h2>
+        <h3 className="temperature">
+          <span className="currentTempearture">
+            {Math.round(weatherData.temperature)}{" "}
+          </span>
+          <span className="unit-selection">
+            <a href="#" className="units" id="celsius">
+              °C
+            </a>
+            " 🌡 "
+            <a href="#" className="units" id="fahrenheit">
+              °F
+            </a>
+          </span>
+        </h3>
+        <h4 id="current-day-time">{weatherData.date}</h4>
+        <br />
+      </div>
+    );
+  } else {
+    const apiKey = `434de5eada78e8cca4747491478592c5`;
+
+    let unit = "metric";
+    let apiUrl = `http://api.openweathermap.org/data/2.5/weather?q=${props.defaultCity}&appid=${apiKey}&units=${unit}`;
+
+    axios.get(apiUrl).then(handleResponse);
+
+    return "Loading...";
+  }
 }
