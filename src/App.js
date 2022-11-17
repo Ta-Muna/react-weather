@@ -5,7 +5,7 @@ export default function App() {
   return (
     <div className="App">
       <div className="container">
-        <Weather defaultCity="Tbilisi" />.
+        <Weather defaultCity="Tbilisi" />
         <footer>
           Project was created by Tamari Pilia{" "}
           <a
