@@ -15,7 +15,7 @@ export default function App() {
           >
             and is open-sourced on Github
           </a>
-        </footer>{" "}
+        </footer>
       </div>
     </div>
   );
